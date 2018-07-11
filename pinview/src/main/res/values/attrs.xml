@@ -28,6 +28,7 @@
         <attr name="itemSpacing" format="dimension" />
         <attr name="lineWidth" format="dimension" />
         <attr name="lineColor" format="reference|color" />
+        <attr name="bgColor" format="reference|color" />
         <attr name="viewType" format="enum">
             <enum name="rectangle" value="0" />
             <enum name="line" value="1" />

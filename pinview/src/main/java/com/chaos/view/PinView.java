@@ -73,10 +73,12 @@ public class PinView extends AppCompatEditText {
     private int mPinItemSpacing;
 
     private final Paint mPaint;
+    private final Paint mBackgroundPaint;
     private final TextPaint mTextPaint;
     private final Paint mAnimatorTextPaint;
 
     private ColorStateList mLineColor;
+    private int mBackgroundColor = Color.WHITE;
     private int mCurLineColor = Color.BLACK;
     private int mLineWidth;
 
@@ -112,6 +114,9 @@ public class PinView extends AppCompatEditText {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Paint.Style.STROKE);
 
+        mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mBackgroundPaint.setStyle(Paint.Style.FILL);
+
         mTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.density = res.getDisplayMetrics().density;
         mTextPaint.setStyle(Paint.Style.FILL);
@@ -139,6 +144,7 @@ public class PinView extends AppCompatEditText {
         mCursorColor = a.getColor(R.styleable.PinView_cursorColor, getCurrentTextColor());
         mCursorWidth = a.getDimensionPixelSize(R.styleable.PinView_cursorWidth,
                 res.getDimensionPixelSize(R.dimen.pv_pin_view_cursor_width));
+        mBackgroundColor = a.getColor(R.styleable.PinView_bgColor, Color.WHITE);
 
         a.recycle();
 
@@ -292,6 +298,10 @@ public class PinView extends AppCompatEditText {
         mPaint.setColor(mCurLineColor);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(mLineWidth);
+
+        mBackgroundPaint.setColor(mBackgroundColor);
+        mBackgroundPaint.setStyle(Paint.Style.FILL);
+
         mTextPaint.setColor(getCurrentTextColor());
     }
 
@@ -344,6 +354,7 @@ public class PinView extends AppCompatEditText {
     }
 
     private void drawPinBox(Canvas canvas, int i) {
+
         boolean drawRightCorner = false;
         boolean drawLeftCorner = false;
         if (mPinItemSpacing != 0) {
@@ -356,9 +367,12 @@ public class PinView extends AppCompatEditText {
                 drawRightCorner = true;
             }
         }
+
         updateRoundRectPath(mItemBorderRect, mPinItemRadius, mPinItemRadius, drawLeftCorner, drawRightCorner);
+        canvas.drawPath(mPath, mBackgroundPaint);
         canvas.drawPath(mPath, mPaint);
     }
+
 
     private void drawPinLine(Canvas canvas, int i) {
         boolean l, r;
